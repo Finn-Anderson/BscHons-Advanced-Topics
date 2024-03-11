@@ -21,4 +21,26 @@ export class LoginComponent {
 	onSubmit() {
 		
 	}
+
+	getEmailError(): String {
+		if (this.loginForm.get("email")?.errors?.["email"]) {
+			return "Invalid email address";
+		}
+		else if (this.loginForm.get("email")?.errors?.["required"]) {
+			return "Please provide an email address";
+		}
+		
+		return "An unknown error has occurred";
+	}
+
+	getPasswordError(): String {
+		if (this.loginForm.get("password")?.errors?.["minlength"]) {
+			return "Password must be at least 6 characters";
+		}
+		else if (this.loginForm.get("password")?.errors?.["required"]) {
+			return "Please provide a password";
+		}
+
+		return "An unknown error has occurred";
+	}
 }

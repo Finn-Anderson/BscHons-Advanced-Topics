@@ -36,7 +36,22 @@ input, button {
 input {
     background-color: #f6f6f6;
     border: 2px solid white;
+    width: 220px;
+}
+
+p {
+    opacity: 0;
+    color: #ff4666;
+    margin-top: 0px;
     margin-bottom: 1em;
+}
+
+.ng-touched.ng-invalid {
+    border-color:#ff4666;
+}
+
+.ng-touched.ng-invalid + p {
+    opacity: 1;
 }
 
 input:focus {
