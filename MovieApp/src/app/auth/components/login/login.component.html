@@ -1,0 +1,14 @@
+<div id="container">
+    <div>
+        <h1>Login to Account</h1>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <input type="email" placeholder="Email" autocomplete="off" formControlName="email">
+            <input type="password" placeholder="Password" autocomplete="off" formControlName="password">
+
+            <button type="submit" [disabled]="loginForm.invalid">Login</button>
+        </form>
+
+        <a routerLink="../register">Register</a>
+    </div>
+</div>
