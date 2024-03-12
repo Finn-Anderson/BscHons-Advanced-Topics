@@ -7,12 +7,12 @@ import { Injectable } from '@angular/core';
 export class SubscriptionsService {
   	constructor(private http: HttpClient) { }
 
-  	storeSubscriptions(subscriptions: string, userID: string | undefined) {
-    	this.http.put("https://bschons-advanced-topics-default-rtdb.europe-west1.firebasedatabase.app/" + userID + ".json", subscriptions).subscribe();
+  	storeSubscriptions(subscriptions: string, userID: string | undefined, authToken: any) {
+    	this.http.put("https://bschons-advanced-topics-default-rtdb.europe-west1.firebasedatabase.app/subscriptions/" + userID + ".json", subscriptions, {params: {"auth": authToken}}).subscribe();
   	}
 
-	getSubscriptions(userID: string | undefined, callback: Function) {
-		this.http.get("https://bschons-advanced-topics-default-rtdb.europe-west1.firebasedatabase.app/" + userID + ".json").subscribe((res) => {
+	getSubscriptions(userID: string | undefined, authToken: any, callback: Function) {
+		this.http.get("https://bschons-advanced-topics-default-rtdb.europe-west1.firebasedatabase.app/subscriptions/" + userID + ".json", {params: {"auth": authToken}}).subscribe((res) => {
 			callback(JSON.stringify(res));
 		})
 	}

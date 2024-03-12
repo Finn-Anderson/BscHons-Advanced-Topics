@@ -14,10 +14,14 @@ export class AuthService {
   	register(email: string, password: string): Promise<string | void> {
 		return this.auth.createUserWithEmailAndPassword(email, password)
 			.then(res => {
-				let subscriptions = JSON.stringify({netflix: false, sky: false, now: false, amazon: false, disney: false});
-				this.subscriptionsService.storeSubscriptions(subscriptions, res.user?.uid);
+				res.user?.getIdToken(false).then(token => {
+					let authToken = token
 
-				this.router.navigate(['']);
+					let subscriptions = JSON.stringify({netflix: false, sky: false, now: false, amazon: false, disney: false});
+					this.subscriptionsService.storeSubscriptions(subscriptions, res.user?.uid, authToken);
+
+					this.router.navigate(['']);
+				}) 
 			})
 			.catch(error => {
 				if(error.code == "auth/email-already-in-use") {

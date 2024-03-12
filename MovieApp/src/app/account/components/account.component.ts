@@ -13,6 +13,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 })
 export class AccountComponent {
 	userID!: string | undefined;
+	authToken: any;
 
 	subscriptionForm = new FormGroup({
 		netflix: new FormControl(false),
@@ -25,8 +26,13 @@ export class AccountComponent {
 	constructor(private authService: AuthService, private subscriptionsService: SubscriptionsService, private auth: AngularFireAuth) {
 		this.auth.authState.subscribe(user => {
 			this.userID = user ? user.uid : undefined;
+			if (this.userID) {
+				user?.getIdToken(false).then(token => {
+					this.authToken = token;
 
-			this.subscriptionsService.getSubscriptions(this.userID, this.setValues.bind(this));
+					this.subscriptionsService.getSubscriptions(this.userID, this.authToken, this.setValues.bind(this));
+				})
+			}
 		})
 	}
 
@@ -38,7 +44,7 @@ export class AccountComponent {
 
 	onSubmit() {
 		let serializedForm = JSON.stringify(this.subscriptionForm.getRawValue());
-		this.subscriptionsService.storeSubscriptions(serializedForm, this.userID);
+		this.subscriptionsService.storeSubscriptions(serializedForm, this.userID, this.authToken);
 	}
 
 	onLogout() {
