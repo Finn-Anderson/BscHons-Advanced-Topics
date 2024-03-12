@@ -2,17 +2,21 @@ import { Injectable } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { Router } from '@angular/router';
+import { SubscriptionsService } from '../../account/services/subscriptions.service';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthService {
 
-  	constructor(private auth: AngularFireAuth, private router: Router) { }
+  	constructor(private auth: AngularFireAuth, private router: Router, private subscriptionsService: SubscriptionsService) { }
 
   	register(email: string, password: string): Promise<string | void> {
 		return this.auth.createUserWithEmailAndPassword(email, password)
 			.then(res => {
+				let subscriptions = JSON.stringify({netflix: false, sky: false, now: false, amazon: false, disney: false});
+				this.subscriptionsService.storeSubscriptions(subscriptions, res.user?.uid);
+
 				this.router.navigate(['']);
 			})
 			.catch(error => {
@@ -36,7 +40,7 @@ export class AuthService {
 				if(error.code == "auth/user-not-found") {
 					return "No account uses this email adress";
 				}
-				else if (error.code == "auth/wrong-password") {
+				else if (error.code == "auth/wrong-password" || error.code == "auth/invalid-credential") {
 					return "Incorrect email/password";
 				}
 

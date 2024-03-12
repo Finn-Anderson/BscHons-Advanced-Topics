@@ -1,1 +1,28 @@
-<a (click)="onLogout()">Logout</a>
+<div id="container">
+    <div>
+        <h1>Subscriptions</h1>
+        <form [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()">
+            <input id="netflix" type="checkbox" value="netflix" [formControl]="subscriptionForm.controls['netflix']">
+            <label for="netflix"><div></div></label>
+
+            <input id="sky" type="checkbox" value="sky" [formControl]="subscriptionForm.controls['sky']">
+            <label for="sky"><div></div></label>
+
+            <input id="now" type="checkbox" value="now" [formControl]="subscriptionForm.controls['now']">
+            <label for="now"><div></div></label>
+
+            <input id="amazon" type="checkbox" value="amazon" [formControl]="subscriptionForm.controls['amazon']">
+            <label for="amazon"><div></div></label>
+
+            <input id="disney" type="checkbox" value="disney" [formControl]="subscriptionForm.controls['disney']">
+            <label for="disney"><div></div></label>
+
+            <div id="save">
+                <button type="submit">Save</button>
+            </div>
+        </form>
+
+        <h1>Logout</h1>
+        <button (click)="onLogout()">Logout</button>
+    </div>
+</div>

@@ -64,6 +64,8 @@ input:focus {
 }
 
 #error {
+    width: 270px;
+    text-align: center;
     margin: auto;
     margin-bottom: 1em;
 }

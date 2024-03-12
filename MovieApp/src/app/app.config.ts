@@ -1,5 +1,6 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import {provideHttpClient} from '@angular/common/http';
 
 import { AngularFireModule } from '@angular/fire/compat';
 
@@ -7,5 +8,5 @@ import { routes } from './app.routes';
 import { firebaseConfig } from './auth/models/firebase.model';
 
 export const appConfig: ApplicationConfig = {
-    providers: [provideRouter(routes), importProvidersFrom(AngularFireModule.initializeApp(firebaseConfig))]
+    providers: [provideRouter(routes), importProvidersFrom(AngularFireModule.initializeApp(firebaseConfig)), provideHttpClient()]
 };
