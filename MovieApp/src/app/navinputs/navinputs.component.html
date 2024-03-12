@@ -1,4 +1,5 @@
 <div>
     <input placeholder="Search...">
-    <a routerLink="/login">Login</a>
+    <a *ngIf="!authenticated" routerLink="/login">Login</a>
+    <a *ngIf="authenticated" routerLink="/account">Account</a>
 </div>

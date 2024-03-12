@@ -1,17 +1,23 @@
 <div id="container">
-    <div>
+    <div id="authDiv">
         <h1>Login to Account</h1>
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <input type="email" placeholder="Email" autocomplete="off" formControlName="email">
-            <p id="emailError">{{ getEmailError() }}</p>
+            <p>{{ getEmailError() }}</p>
 
             <input type="password" placeholder="Password" autocomplete="off" formControlName="password">
-            <p id="passwordError">{{ getPasswordError() }}</p>
+            <p>Please enter your password</p>
+
+            <strong id="error" *ngIf="error">{{ error }}</strong>
 
             <button type="submit" [disabled]="loginForm.invalid">Login</button>
         </form>
 
         <a routerLink="../register">Register</a>
+
+        <div id="loading" *ngIf="loading">
+            <img src="assets/LoadingIcon.png">
+        </div>
     </div>
 </div>
