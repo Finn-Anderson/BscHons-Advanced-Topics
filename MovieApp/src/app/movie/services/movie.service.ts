@@ -14,15 +14,22 @@ export class MovieService {
 			.set("Authorization", "Bearer " + moviedbConfig.apiToken);
   	}
 
-	getTrendingMovies(callback: Function) {
-		this.http.get("https://api.themoviedb.org/3/movie/popular", {headers: this.headers}).subscribe((res) => {
-			callback(JSON.stringify(res));
+	private getMovies(page: string, callback: Function) {
+		this.http.get("https://api.themoviedb.org/3/movie/" + page, {headers: this.headers}).subscribe({
+			next: (data) => {
+				callback(JSON.stringify(data));
+			},
+			error: (error) => {
+
+			}
 		});
 	}
 
+	getTrendingMovies(callback: Function) {
+		this.getMovies("popular", callback);
+	}
+
 	getUpcomingMovies(callback: Function) {
-		this.http.get("https://api.themoviedb.org/3/movie/upcoming", {headers: this.headers}).subscribe((res) => {
-			callback(JSON.stringify(res));
-		});
+		this.getMovies("upcoming", callback);
 	}
 }

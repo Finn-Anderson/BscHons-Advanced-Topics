@@ -1,0 +1,18 @@
+#container {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1em;
+}
+
+div h1 {
+    padding: 0.1em 0.7em;
+    background-color: #5875ff;
+    color: white;
+    box-shadow: 0px 0px 16px -8px #4666ff;
+}
+
+#container + h1 {
+    margin-top: 2em;
+}
