@@ -4,11 +4,12 @@ import { MovieService } from '../../services/movie.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorComponent } from '../../../error/components/error/error.component';
 import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
  	 selector: 'app-search',
  	 standalone: true,
- 	 imports: [],
+ 	 imports: [CommonModule],
  	 templateUrl: './search.component.html',
  	 styleUrls: ['./search.component.css', '../globalmovie.component.css']
  })
