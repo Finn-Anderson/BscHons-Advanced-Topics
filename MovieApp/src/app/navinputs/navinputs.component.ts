@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Subscription } from "rxjs";
 import { CommonModule } from "@angular/common";
@@ -16,7 +16,7 @@ import { CommonModule } from "@angular/common";
 })
 export class NavInputsComponent implements OnInit {
     
-    constructor(private auth: AngularFireAuth) { }
+    constructor(private auth: AngularFireAuth, private router: Router) { }
 
     authenticated = false;
     authSubscription = new Subscription;
@@ -29,5 +29,16 @@ export class NavInputsComponent implements OnInit {
 
     ngOnDestroy(): void {
         this.authSubscription.unsubscribe();
+    }
+
+    submitSearch(event: any) {
+        const value = event.target.value;
+
+        if (value == "") {
+			this.router.navigate([""]);
+		}
+        else {
+            this.router.navigate(["/search", value]);
+        }
     }
 }

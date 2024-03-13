@@ -1,5 +1,5 @@
 <div>
-    <input placeholder="Search...">
+    <input (keyup.enter)="submitSearch($event)" placeholder="Search...">
     <a *ngIf="!authenticated" routerLink="/login">Login</a>
     <a *ngIf="authenticated" routerLink="/account">Account</a>
 </div>

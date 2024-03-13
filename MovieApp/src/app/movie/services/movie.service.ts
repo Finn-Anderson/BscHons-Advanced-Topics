@@ -14,22 +14,33 @@ export class MovieService {
 			.set("Authorization", "Bearer " + moviedbConfig.apiToken);
   	}
 
-	private getMovies(page: string, callback: Function) {
-		this.http.get("https://api.themoviedb.org/3/movie/" + page, {headers: this.headers}).subscribe({
+	private getMovies(page: string, callback: Function, errorCallback: Function) {
+		this.http.get("https://api.themoviedb.org/3/movie/" + page + "?region=GB", {headers: this.headers}).subscribe({
 			next: (data) => {
 				callback(JSON.stringify(data));
 			},
 			error: (error) => {
-
+				errorCallback(page);
 			}
 		});
 	}
 
-	getTrendingMovies(callback: Function) {
-		this.getMovies("popular", callback);
+	getTrendingMovies(callback: Function, errorCallback: Function) {
+		this.getMovies("popular", callback, errorCallback);
 	}
 
-	getUpcomingMovies(callback: Function) {
-		this.getMovies("upcoming", callback);
+	getUpcomingMovies(callback: Function, errorCallback: Function) {
+		this.getMovies("upcoming", callback, errorCallback);
+	}
+
+	searchForMovie(name: string, pageNum: number, callback: Function, errorCallback: Function) {
+		this.http.get("https://api.themoviedb.org/3/search/movie?query=" + name + "&region=GB&page=" + pageNum, {headers: this.headers}).subscribe({
+			next: (data) => {
+				callback(JSON.stringify(data));
+			},
+			error: (error) => {
+				errorCallback(name);
+			}
+		});
 	}
 }
