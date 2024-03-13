@@ -1,0 +1,4 @@
+export const moviedbConfig = {
+    apiKey: "656a65d1e2bd0d7fb1505e01f0e386cb",
+    apiToken: "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NTZhNjVkMWUyYmQwZDdmYjE1MDVlMDFmMGUzODZjYiIsInN1YiI6IjY1ZjBmNGRmMmZkZWM2MDE3MDIwMzY0ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qCkqQLRHoyCN4eSU8eUParTVqS-iF1Ee1tmnH8GDwes"
+}
