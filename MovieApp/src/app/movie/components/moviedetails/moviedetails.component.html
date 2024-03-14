@@ -26,7 +26,24 @@
 				</ul>
 			</div>
 			<div id="servicesOn">
-				
+				<strong id="error" [hidden]="hide.subError">Failed to load subscriptions.</strong>
+				<div [hidden]="hide.subscriptions">
+					<div class="is{{subscriptions.netflix}}">
+						<img src="assets/Netflix.png" alt="Netflix">
+					</div>
+					<div class="is{{subscriptions.sky}}">
+						<img src="assets/Sky.png" alt="Sky">
+					</div>
+					<div class="is{{subscriptions.now}}">
+						<img src="assets/Now.png" alt="Now">
+					</div>
+					<div class="is{{subscriptions.amazon}}">
+						<img src="assets/Amazon.png" alt="Amazon">
+					</div>
+					<div class="is{{subscriptions.disney}}">
+						<img src="assets/Disney.png" alt="Disney">
+					</div>
+				</div>
 			</div>
 		</div>
     </div>

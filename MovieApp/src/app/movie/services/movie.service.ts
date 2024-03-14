@@ -65,4 +65,15 @@ export class MovieService {
 			}
 		});
 	}
+
+	getMovieStreamingProviders(id: number, callback: Function, errorCallback: Function) {
+		this.http.get("https://api.themoviedb.org/3/movie/" + id + "/watch/providers", {headers: this.headers}).subscribe({
+			next: (data) => {
+				callback(JSON.stringify(data));
+			},
+			error: (error) => {
+				errorCallback();
+			}
+		});
+	}
 }

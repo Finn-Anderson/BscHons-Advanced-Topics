@@ -1,10 +1,12 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription} from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ErrorComponent } from '../../../error/components/error/error.component';
 import { ErrorService } from '../../../error/services/error.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { SubscriptionsService } from '../../../account/services/subscriptions.service';
 
 @Component({
 	selector: 'app-moviedetails',
@@ -17,14 +19,15 @@ import { ErrorService } from '../../../error/services/error.service';
 export class MovieDetailsComponent {
 	private routeSub!: Subscription;
 	loading = true;
-	hide = {error: true, movie: true};
+	hide = {error: true, movie: true, subError: true, subscriptions: true};
 	details = {poster: "", title: "", description: "", rating: "", genres: "<b>Genres:</b> ", release_date: "", runtime: "", languages: "<b>Languages:</b> ", certification: ""};
+	subscriptions = {netflix: "unavailable", sky: "unavailable", now: "unavailable", amazon: "unavailable", disney: "unavailable"};
 	
 	part = 0;
-	dataHolder: {movie: any, release_dates: any};
+	dataHolder: {movie: any, release_dates: any, providers: any};
 
-	constructor(private movieService: MovieService, private route: ActivatedRoute, public errorService: ErrorService) { 
-		this.dataHolder = {movie: {}, release_dates: {}};
+	constructor(private movieService: MovieService, private route: ActivatedRoute, public errorService: ErrorService, private auth: AngularFireAuth, private subscriptionsService: SubscriptionsService) { 
+		this.dataHolder = {movie: {}, release_dates: {}, providers: {}};
 
 		errorService.message = "Failed to load movies";
 	}
@@ -43,8 +46,11 @@ export class MovieDetailsComponent {
 		if (this.part == 0) {
 			this.movieService.getMovieDetails(id, this.storeDetails.bind(this), this.errorCallback.bind(this));
 		}
-		else {
+		else if (this.part == 1) {
 			this.movieService.getMovieReleaseDate(id, this.storeDetails.bind(this), this.errorCallback.bind(this));
+		}
+		else {
+			this.movieService.getMovieStreamingProviders(id, this.storeDetails.bind(this), this.errorCallback.bind(this));
 		}
 	}
 
@@ -54,24 +60,85 @@ export class MovieDetailsComponent {
 		if (this.part == 0) {
 			this.dataHolder.movie = data;
 		}
-		else {
+		else if (this.part == 1) {
 			this.dataHolder.release_dates = data;
+		}
+		else {
+			this.dataHolder.providers = data;
 		}
 
 		this.part++;
 
-		if (this.part == 2) {
+		if (this.part == 3) {
 			this.sendToDisplay("movie");
 		}
 		else {
 			this.getDetails(data["id"]);
 		}
-
-		console.log(this.dataHolder);
 	}
 
 	errorCallback() {
 		this.sendToDisplay("error");
+	}
+
+	setSubscriptions(stringify: string) {
+		var parse = JSON.parse(stringify);
+
+		if (!this.dataHolder.providers.results["GB"]) {
+			this.hide.subscriptions = false;
+			
+			return;
+		}
+
+		let options = [this.dataHolder.providers.results["GB"].flatrate, this.dataHolder.providers.results["GB"].buy];
+
+		for (const option of options) {
+			for (const provider of option) {
+				let value = "unsubscribed"
+
+				if (provider.provider_name.includes("Netflix")) {
+					if (parse != null && parse["netflix"]) {
+						value = "subscribed";
+					}
+
+					this.subscriptions.netflix = value;
+				}
+				else if (provider.provider_name.includes("Sky")) {
+					if (parse != null && parse["sky"]) {
+						value = "subscribed";
+					}
+
+					this.subscriptions.sky = value;
+				}
+				else if (provider.provider_name.includes("Now")) {
+					if (parse != null && parse["now"]) {
+						value = "subscribed";
+					}
+
+					this.subscriptions.now = value;
+				}
+				else if (provider.provider_name.includes("Amazon")) {
+					if (parse != null && parse["amazon"]) {
+						value = "subscribed";
+					}
+
+					this.subscriptions.amazon = value;
+				}
+				else if (provider.provider_name.includes("Disney")) {
+					if (parse != null && parse["disney"]) {
+						value = "subscribed";
+					}
+
+					this.subscriptions.disney = value;
+				}
+			}
+		}
+
+		this.hide.subscriptions = false;
+	}
+
+	subErrorCallback() {
+		this.hide.subError = false;
 	}
 
 	sendToDisplay(command: string) {
@@ -105,6 +172,14 @@ export class MovieDetailsComponent {
 			}
 
 			this.details.languages = this.details.languages.substring(0, this.details.languages.length - 2);
+
+			this.auth.authState.subscribe(user => {
+				if (user) {
+					user?.getIdToken(false).then(token => {
+						this.subscriptionsService.getSubscriptions(user.uid, token, this.setSubscriptions.bind(this), this.subErrorCallback.bind(this));
+					})
+				}
+			});
 			
 			this.hide.movie = false;
 	  	}
