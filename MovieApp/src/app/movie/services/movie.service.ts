@@ -43,4 +43,26 @@ export class MovieService {
 			}
 		});
 	}
+
+	getMovieDetails(id: number, callback: Function, errorCallback: Function) {
+		this.http.get("https://api.themoviedb.org/3/movie/" + id, {headers: this.headers}).subscribe({
+			next: (data) => {
+				callback(JSON.stringify(data));
+			},
+			error: (error) => {
+				errorCallback();
+			}
+		});
+	}
+
+	getMovieReleaseDate(id: number, callback: Function, errorCallback: Function) {
+		this.http.get("https://api.themoviedb.org/3/movie/" + id + "/release_dates", {headers: this.headers}).subscribe({
+			next: (data) => {
+				callback(JSON.stringify(data));
+			},
+			error: (error) => {
+				errorCallback();
+			}
+		});
+	}
 }

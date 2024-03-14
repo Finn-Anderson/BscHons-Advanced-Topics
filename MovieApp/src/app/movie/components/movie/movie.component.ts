@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
   	standalone: true,
   	imports: [RouterModule],
   	templateUrl: './movie.component.html',
-  	styleUrl: './movie.component.css',
+  	styleUrls: ['./movie.component.css', '../globalmovie.component.css'],
 	encapsulation: ViewEncapsulation.None
 })
 export class MovieComponent {

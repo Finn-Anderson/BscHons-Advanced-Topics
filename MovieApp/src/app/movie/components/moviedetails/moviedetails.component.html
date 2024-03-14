@@ -1,1 +1,29 @@
-<p>moviedetails works!</p>
+<div id="container">
+	<img id="loading" *ngIf="loading" src="assets/LoadingIcon.png">
+	<app-error [hidden]="hide.error"></app-error>
+    <div id="profile" [hidden]="hide.movie">
+		<div id="image">
+			<img src={{details.poster}} alt={{details.title}}>
+		</div>
+		<div id="info">
+			<h1 [innerHTML]="details.title"></h1>
+			<div id="description">
+				<h2>Description</h2>
+				<p [innerHTML]="details.description"></p>
+			</div>
+			<div id="details">
+				<h2>Details</h2>
+				<ul>
+					<li [innerHTML]="details.genres"></li>
+					<li [innerHTML]="details.release_date"></li>
+					<li [innerHTML]="details.runtime"></li>
+					<li [innerHTML]="details.certification"></li>
+					<li [innerHTML]="details.languages"></li>
+				</ul>
+			</div>
+			<div id="servicesOn">
+				
+			</div>
+		</div>
+    </div>
+</div>

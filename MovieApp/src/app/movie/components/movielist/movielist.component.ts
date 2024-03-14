@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   	styleUrls: ['./movielist.component.css', '../globalmovie.component.css']
 })
 export class MovieListComponent {
-	loading = Object();
+	loading;
 
 	@ViewChild("viewContainerRefTrending", { read: ViewContainerRef }) vcrt!: ViewContainerRef;
 	@ViewChild("viewContainerRefUpcoming", { read: ViewContainerRef }) vcru!: ViewContainerRef;
@@ -73,7 +73,7 @@ export class MovieListComponent {
 		else {
 			let instance = this.ref.instance as ErrorComponent;
 
-			instance.errorMsg = "Failed to load movies";
+			instance.errorService.message = "Failed to load movies";
 			instance.marginTop = "0em";
 		}
 	}

@@ -14,3 +14,14 @@ nav h1 {
 nav app-navinputs {
     margin-left: auto;
 }
+
+@media only screen and (max-width: 550px) {
+	nav {
+		padding-bottom: 48px;
+	}
+
+	nav h1 {
+		margin: 8px;
+		margin-left: 16px;
+	}
+}

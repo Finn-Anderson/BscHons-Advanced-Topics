@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   	selector: 'app-error',
@@ -8,6 +9,7 @@ import { Component } from '@angular/core';
   	styleUrl: './error.component.css'
 })
 export class ErrorComponent {
-	errorMsg = "Error 404 - Page not found";
 	marginTop = "1em";
+
+	constructor(public errorService: ErrorService) {}
 }

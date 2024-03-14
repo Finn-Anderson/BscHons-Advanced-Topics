@@ -17,9 +17,9 @@
             <input id="disney" type="checkbox" value="disney" [formControl]="subscriptionForm.controls['disney']">
             <label for="disney"><div></div></label>
 
-            <div id="save">
-                <button type="submit">Save</button>
-            </div>
+			<strong [innerHTML]="errorMsg"></strong>
+
+            <button type="submit">Save</button>
         </form>
 
         <h1>Logout</h1>

@@ -24,3 +24,21 @@ a {
     margin-left: 1.5em;
     font-weight: bold;
 }
+
+@media only screen and (max-width: 550px) {
+	input {
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%, 0);
+		top: 48px;
+		width: calc(100% - 64px);
+	}
+
+	div {
+		margin: 0px;
+	}
+
+	a {
+		margin-right: 16px;
+	}
+}

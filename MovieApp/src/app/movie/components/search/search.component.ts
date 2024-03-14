@@ -36,6 +36,12 @@ export class SearchComponent {
 	}
 
 	search(name: string, page: number) {
+		if (name != this.query && this.query != "") {
+			this.vcr.clear();
+
+			page = 0;
+		}
+
 		this.loading = true;
 		this.query = name;
 		this.movieService.searchForMovie(name, page + 1, this.displaySearch.bind(this), this.errorCallback.bind(this));
@@ -43,8 +49,6 @@ export class SearchComponent {
 
 	displaySearch(stringify: string) {
 		const parse = JSON.parse(stringify);
-
-		console.log(parse["results"]);
 
 		for (const movie of parse["results"]) {
 			this.addChildComponent(MovieComponent as Type<Component>, movie);
@@ -75,9 +79,10 @@ export class SearchComponent {
 	  	else {
 		  	let instance = this.ref.instance as ErrorComponent;
 
-		  	instance.errorMsg = "Failed to load movies";
+		  	instance.errorService.message = "Failed to load movies";
 		 	instance.marginTop = "0em";
 	  	}
+
 		this.loading = false;
   	}
 
@@ -85,7 +90,7 @@ export class SearchComponent {
 	onScroll(): void {
 		if ((window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 10) && this.load && !this.loading) {
 			this.search(this.query, this.pageNum);
-			console.log("gererg");
+			this.loading = false;
 		}
 	}
 }

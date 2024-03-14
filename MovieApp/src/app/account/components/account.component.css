@@ -5,8 +5,11 @@
 }
 
 form {
-    display: flex;
+    display: grid;
     flex-wrap: wrap;
+	grid-template-columns: 68px 68px 68px 68px 68px;
+	grid-template-rows: auto auto auto;
+	gap: 1em;
 }
 
 input {
@@ -17,7 +20,6 @@ label {
     display: inline-block;
     width: 64px;
     height: 64px;
-    margin-right: 8px;
     background-size: cover;
     border: 2px solid;
     border-radius: 8px;
@@ -65,13 +67,16 @@ input:checked + label div {
     background-color: rgba(102, 255, 70, 0.2);
 }
 
-#save {
-    width: 100%;
-    margin-top: 1em;
+button[type="submit"] {
+	grid-column: 4 / span 2;
+	width: max-content;
+	justify-self: right;
 }
 
-#save button {
-    float: right;
+strong {
+	color: #ff4666;
+	grid-column: 1 / span 5;
+	text-align: center;
 }
 
 button {
@@ -89,4 +94,10 @@ button {
 
 button:hover {
     background-color: #ffdf46;
+}
+
+@media only screen and (max-width: 480px) {
+	form {
+		gap: 6px;
+	}
 }

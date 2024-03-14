@@ -14,6 +14,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 export class AccountComponent {
 	userID!: string | undefined;
 	authToken: any;
+	errorMsg = "";
 
 	subscriptionForm = new FormGroup({
 		netflix: new FormControl(false),
@@ -30,13 +31,17 @@ export class AccountComponent {
 				user?.getIdToken(false).then(token => {
 					this.authToken = token;
 
-					this.subscriptionsService.getSubscriptions(this.userID, this.authToken, this.setValues.bind(this));
+					this.subscriptionsService.getSubscriptions(this.userID, this.authToken, this.setValues.bind(this), this.errorCallback.bind(this));
 				})
 			}
 		})
 	}
 
 	setValues(stringify: string) {
+		if (stringify == "null") {
+			return;
+		}
+
 		var parse = JSON.parse(stringify);
 
 		this.subscriptionForm.setValue(parse);
@@ -44,7 +49,16 @@ export class AccountComponent {
 
 	onSubmit() {
 		let serializedForm = JSON.stringify(this.subscriptionForm.getRawValue());
-		this.subscriptionsService.storeSubscriptions(serializedForm, this.userID, this.authToken);
+		this.subscriptionsService.storeSubscriptions(serializedForm, this.userID, this.authToken, this.errorCallback.bind(this));
+	}
+
+	errorCallback(direction: string) {
+		if (direction == "get") {
+			this.errorMsg = "Failed to get subscriptions from database. Please try again later.";
+		}
+		else {
+			this.errorMsg = "Failed to save subscriptions to database. Please try again later.";
+		}
 	}
 
 	onLogout() {

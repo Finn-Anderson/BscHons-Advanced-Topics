@@ -1,0 +1,64 @@
+#profile {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	justify-content: center;
+	margin-top: 1em;
+}
+
+#image {
+	width: 500px;
+	height: 750px;
+}
+
+#profile img {
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	border: 2px solid #ffdf46;
+	border-radius: 4px;
+}
+
+#profile h1 {
+	grid-row: 1;
+	margin: 0px;
+	padding: 4px 2em;
+	text-align: center;
+	align-self: flex-start;
+}
+
+#info {
+	display: grid;
+	grid-template-columns: auto;
+	grid-template-rows: auto auto auto auto;
+	max-width: 500px;
+	height: 600px;
+}
+
+h2 {
+	margin: 0px 0px 12px 8px;
+	color: #4666ff;
+}
+
+#description p {
+	margin: 0px;
+	padding-left: 1em;
+}
+
+ul {
+	list-style-type: none;
+	padding-left: 1em;
+	margin: 0px;
+}
+
+li {
+	margin-bottom: 1em;
+}
+
+@media only screen and (max-width: 600px) {
+	#image {
+		width: 350px;
+		height: 525px;
+	}
+}
