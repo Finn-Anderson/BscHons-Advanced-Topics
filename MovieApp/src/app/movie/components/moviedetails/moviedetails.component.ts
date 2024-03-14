@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -11,13 +11,14 @@ import { ErrorService } from '../../../error/services/error.service';
 	standalone: true,
 	imports: [ErrorComponent, CommonModule],
 	templateUrl: './moviedetails.component.html',
-	styleUrls: ['./moviedetails.component.css', '../globalmovie.component.css']
+	styleUrls: ['./moviedetails.component.css', '../globalmovie.component.css'],
+	encapsulation: ViewEncapsulation.None
 })
 export class MovieDetailsComponent {
 	private routeSub!: Subscription;
 	loading = true;
 	hide = {error: true, movie: true};
-	details = {poster: "", title: "", description: "", genres: "<b>Genres:</b> ", release_date: "", runtime: "", languages: "<b>Languages:</b> ", certification: ""};
+	details = {poster: "", title: "", description: "", rating: "", genres: "<b>Genres:</b> ", release_date: "", runtime: "", languages: "<b>Languages:</b> ", certification: ""};
 	
 	part = 0;
 	dataHolder: {movie: any, release_dates: any};
@@ -64,9 +65,9 @@ export class MovieDetailsComponent {
 		}
 		else {
 			this.getDetails(data["id"]);
-
-			console.log(this.dataHolder);
 		}
+
+		console.log(this.dataHolder);
 	}
 
 	errorCallback() {
@@ -78,6 +79,7 @@ export class MovieDetailsComponent {
 			this.details.poster = "https://image.tmdb.org/t/p/w500" + this.dataHolder.movie["poster_path"];
 		  	this.details.title = this.dataHolder.movie["title"];
 			this.details.description = this.dataHolder.movie["overview"];
+			this.details.rating = "<span>" + this.dataHolder.movie["vote_average"].toFixed(1) + "</span> / 10";
 
 			for (const genre of this.dataHolder.movie["genres"]) {
 				this.details.genres = this.details.genres.concat(genre.name) + ", ";

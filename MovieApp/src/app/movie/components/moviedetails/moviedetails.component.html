@@ -7,6 +7,10 @@
 		</div>
 		<div id="info">
 			<h1 [innerHTML]="details.title"></h1>
+			<div id="ratings">
+				<img src="assets/Star.png">
+				<strong [innerHTML]="details.rating"></strong>
+			</div>
 			<div id="description">
 				<h2>Description</h2>
 				<p [innerHTML]="details.description"></p>
