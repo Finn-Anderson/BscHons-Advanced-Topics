@@ -21,7 +21,7 @@ export class MovieDetailsComponent {
 	loading = true;
 	hide = {error: true, movie: true, subError: true, subscriptions: true};
 	details = {poster: "", title: "", description: "", rating: "", genres: "<b>Genres:</b> ", release_date: "", runtime: "", languages: "<b>Languages:</b> ", certification: ""};
-	subscriptions = {netflix: "unavailable", sky: "unavailable", now: "unavailable", amazon: "unavailable", disney: "unavailable"};
+	subscriptions = {netflix: "Unavailable", sky: "Unavailable", now: "Unavailable", amazon: "Unavailable", disney: "Unavailable"};
 	
 	part = 0;
 	dataHolder: {movie: any, release_dates: any, providers: any};
@@ -93,40 +93,43 @@ export class MovieDetailsComponent {
 		let options = [this.dataHolder.providers.results["GB"].flatrate, this.dataHolder.providers.results["GB"].buy];
 
 		for (const option of options) {
+			if (option == undefined)
+				continue;
+
 			for (const provider of option) {
-				let value = "unsubscribed"
+				let value = "Unsubscribed"
 
 				if (provider.provider_name.includes("Netflix")) {
 					if (parse != null && parse["netflix"]) {
-						value = "subscribed";
+						value = "Subscribed";
 					}
 
 					this.subscriptions.netflix = value;
 				}
 				else if (provider.provider_name.includes("Sky")) {
 					if (parse != null && parse["sky"]) {
-						value = "subscribed";
+						value = "Subscribed";
 					}
 
 					this.subscriptions.sky = value;
 				}
 				else if (provider.provider_name.includes("Now")) {
 					if (parse != null && parse["now"]) {
-						value = "subscribed";
+						value = "Subscribed";
 					}
 
 					this.subscriptions.now = value;
 				}
 				else if (provider.provider_name.includes("Amazon")) {
 					if (parse != null && parse["amazon"]) {
-						value = "subscribed";
+						value = "Subscribed";
 					}
 
 					this.subscriptions.amazon = value;
 				}
 				else if (provider.provider_name.includes("Disney")) {
 					if (parse != null && parse["disney"]) {
-						value = "subscribed";
+						value = "Subscribed";
 					}
 
 					this.subscriptions.disney = value;
